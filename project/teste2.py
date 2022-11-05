@@ -1,17 +1,19 @@
 import cv2 as cv
 import mediapipe as mp
-import time
+import datetime
 import math
+import time
 import numpy as np
 # variables 
 frame_counter =0
 CEF_COUNTER =0
 TOTAL_BLINKS =0
 time_blink =0
+end_time =0
 # constants
 CLOSED_EYES_FRAME =3
 FONTS =cv.FONT_HERSHEY_COMPLEX
-
+time_of_blink =0.2
 # face bounder indices 
 FACE_OVAL=[ 10, 338, 297, 332, 284, 251, 389, 356, 454, 323, 361, 288, 397, 365, 379, 378, 400, 377, 152, 148, 176, 149, 150, 136, 172, 58, 132, 93, 234, 127, 162, 21, 54, 103,67, 109]
 
@@ -112,7 +114,6 @@ def blinkRatio(img, landmarks, right_indices, left_indices):
 with map_face_mesh.FaceMesh(min_detection_confidence =0.5, min_tracking_confidence=0.5) as face_mesh:
 
     # starting time here 
-    start_time = time.time()
     # starting Video loop here.
     while True:
         frame_counter +=1 # frame counter
@@ -128,28 +129,29 @@ with map_face_mesh.FaceMesh(min_detection_confidence =0.5, min_tracking_confiden
         if results.multi_face_landmarks:
             mesh_coords = landmarksDetection(frame, results, False)
             ratio = blinkRatio(frame, mesh_coords, RIGHT_EYE, LEFT_EYE)
-            #colorBackgroundText(frame,  f'Ratio : {round(ratio,2)}', FONTS, 0.7, (30,100),2, PINK, YELLOW)
-            colorBackgroundText(frame, f'Time: {time_blink}', FONTS, 0.8, (30,100),4, GREEN, BLACK)
 
             if ratio >4.0:
-                #colorBackgroundText(frame,  f'Blink', FONTS, 1.7, (int(frame_height/2), 100), 2, YELLOW, pad_x=6, pad_y=6, )
-                time_blink +=1
+                if time_blink == 0:
+                    start_time = time.time()
+                    time_blink =1
+                colorBackgroundText(frame,  f'Blink', FONTS, 1.7, (int(frame_height/2), 300), 2, YELLOW, pad_x=6, pad_y=6, )
             else:
-                if CEF_COUNTER>CLOSED_EYES_FRAME:
+                if time_blink == 1:
+                    end_time = time.time()-start_time
                     TOTAL_BLINKS +=1
-                CEF_COUNTER =0
+                else:
+                    if end_time >0.5:
+                        colorBackgroundText(frame, f'!CANSADO!', FONTS, 2.0, (int(frame_height/2) ,100),4, 0, (0, 0, 255))
                 time_blink =0
-
+                CEF_COUNTER =0
             #colorBackgroundText(frame,  f'Total Blinks: {TOTAL_BLINKS}', FONTS, 0.7, (30,150),2)
             
             cv.polylines(frame,  [np.array([mesh_coords[p] for p in LEFT_EYE ], dtype=np.int32)], True, GREEN, 1, cv.LINE_AA)
             cv.polylines(frame,  [np.array([mesh_coords[p] for p in RIGHT_EYE ], dtype=np.int32)], True, GREEN, 1, cv.LINE_AA)
 
         # calculating  frame per seconds FPS
-        end_time = time.time()-start_time
-        fps = frame_counter/end_time
-
-        frame =textWithBackground(frame,f'FPS: {round(fps,1)}',FONTS, 1.0, (30, 50), bgOpacity=0.9, textThickness=2)
+        #fps = frame_counter/end_time
+        #frame =textWithBackground(frame,f'FPS: {round(fps,1)}',FONTS, 1.0, (30, 50), bgOpacity=0.9, textThickness=2)
         # writing image for thumbnail drawing shape
         cv.imshow('Eye Blink', frame)
         key = cv.waitKey(2)
