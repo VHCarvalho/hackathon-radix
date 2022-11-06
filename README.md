@@ -16,7 +16,7 @@ Para executar basta baixar o arquivo aplication.py e antes de executar é necess
 
 Durante a execução o usuário poderá observar seu rosto com malhas ao redor de todo o seu rosto. Ao piscar, o algoritmo irá printar o aviso de 'Blink' na tela caso seja uma piscada normal e caso leve mais do que 0.5 segundos, o algoritmo irá exibir um aviso de 'Fadiga'.
 
-![](https://github.com/VHCarvalho/hackaton-radix/misc/DetecçãoFadiga.gif)
+![](misc/DetecçãoFadiga.gif)
 
 ## Guardian Dashboard
 
@@ -24,3 +24,4 @@ O Guardian dashboard no momento é um site estático para ilustrar a relação d
 
 Para executar basta ter um navegador baixado em seu computador e clicar no arquivo site/Dash_board/index.html.
 
+![](misc/dashboard.png)
