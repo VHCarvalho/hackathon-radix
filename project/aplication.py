@@ -5,8 +5,10 @@ import time
 import numpy as np
 
 tired_flag =0
-ESTATUS = "DESCANSADO"
-color = (0, 255, 0)
+ESTATUS = "ok"
+color = (0, 0, 0)
+px = 0
+size =0.0
 bool_blink =0 #para achar o tempo da piscada
 end_time =0 # calcular o tempo
 
@@ -114,10 +116,12 @@ with map_face_mesh.FaceMesh(min_detection_confidence =0.5, min_tracking_confiden
         frame_height, frame_width= frame.shape[:2]
         rgb_frame = cv.cvtColor(frame, cv.COLOR_RGB2BGR)
         results  = face_mesh.process(rgb_frame)
-        colorBackgroundText(frame, f'{ESTATUS}', FONTS, 2.0, (250 ,100),4, 0, color)
+        colorBackgroundText(frame, f'{ESTATUS}', FONTS, size, (px ,100),4, 0, color)
         #calculo de fadiga
         if tired_flag == 1:
             ESTATUS = " FADIGADO !"
+            size = 2.0
+            px = 250
             color = (0, 0, 255)
         if results.multi_face_landmarks:
             mesh_coords = landmarksDetection(frame, results, True)
@@ -142,8 +146,8 @@ with map_face_mesh.FaceMesh(min_detection_confidence =0.5, min_tracking_confiden
             break
         else:
             if key == 13:
-                ESTATUS = "DESCANSADO"
-                color = (0, 255, 0)
+                size = 0.0
+                px =0
                 tired_flag =0
     cv.destroyAllWindows()
     camera.release()
