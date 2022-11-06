@@ -126,7 +126,7 @@ with map_face_mesh.FaceMesh(min_detection_confidence =0.5, min_tracking_confiden
                 if bool_blink == 0:
                     start_time = time.time()
                     bool_blink =1
-                colorBackgroundText(frame,  f'Blink', FONTS, 1.7, (int(frame_height/2), 300), 2, YELLOW, pad_x=6, pad_y=6, )
+                colorBackgroundText(frame,  f'Blink', FONTS, 1.7, (int(frame_height/2), 600), 2, YELLOW, pad_x=6, pad_y=6, )
             else:
                 if bool_blink == 1:
                     end_time = time.time()-start_time
@@ -134,11 +134,16 @@ with map_face_mesh.FaceMesh(min_detection_confidence =0.5, min_tracking_confiden
                     if end_time >0.5:
                         tired_flag += 1
                 bool_blink =0
-            cv.polylines(frame,  [np.array([mesh_coords[p] for p in LEFT_EYE ], dtype=np.int32)], False, GREEN, 1, cv.LINE_AA)
-            cv.polylines(frame,  [np.array([mesh_coords[p] for p in RIGHT_EYE ], dtype=np.int32)], False, GREEN, 1, cv.LINE_AA)
+            cv.polylines(frame,  [np.array([mesh_coords[p] for p in LEFT_EYE ], dtype=np.int32)], True, GREEN, 1, cv.LINE_AA)
+            cv.polylines(frame,  [np.array([mesh_coords[p] for p in RIGHT_EYE ], dtype=np.int32)], True, GREEN, 1, cv.LINE_AA)
         cv.imshow('Eye Blink', frame)
         key = cv.waitKey(2)
         if key == 27:
             break
+        else:
+            if key == 13:
+                ESTATUS = "DESCANSADO"
+                color = (0, 255, 0)
+                tired_flag =0
     cv.destroyAllWindows()
     camera.release()
