@@ -16,11 +16,11 @@ Para executar basta baixar o arquivo aplication.py e antes de executar é necess
 
 Durante a execução o usuário poderá observar seu rosto com malhas ao redor de todo o seu rosto. Ao piscar, o algoritmo irá printar o aviso de 'Blink' na tela caso seja uma piscada normal e caso leve mais do que 0.5 segundos, o algoritmo irá exibir um aviso de 'Fadiga'.
 
-![](https://github.com/hackaton-radix/misc/DetecçãoFadiga.gif.gif)
+![](https://github.com/VHCarvalho/hackaton-radix/misc/DetecçãoFadiga.gif.gif)
 
 ## Guardian Dashboard
 
 O Guardian dashboard no momento é um site estático para ilustrar a relação dos colaboradores e o estado de fadiga. O site foi construído em HTML e CSS, sendo o HTML utilizado para fazer o cards dos colaboradores, texto e faixas e o CSS para posicionar todos os elementos principalmente os cards de forma alinhada e dinâmica para que o site não fique comprometido independente de quantidade de cards (colaboradores) tenham.
 
-Para executar basta ter um navegador baixado em seu computador e clicar no arquivo site/Dash_board/index.html
+Para executar basta ter um navegador baixado em seu computador e clicar no arquivo site/Dash_board/index.html.
 
